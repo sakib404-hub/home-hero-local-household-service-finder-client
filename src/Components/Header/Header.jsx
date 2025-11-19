@@ -36,6 +36,10 @@ const Header = () => {
     const handleLoginButtonCllick = () => {
         path('/login')
     }
+    //logout button Click
+    const handleLogOutButtonClick = () => {
+        console.log('Logout Button is Clicked!');
+    }
     return (
         <div>
             <div className="navbar bg-base-100 shadow-sm">
@@ -74,10 +78,20 @@ const Header = () => {
                 </div>
                 <div className="navbar-end">
                     {
-                        user?.email ? <div >
-                            <a className="btn">Logout </a>
+                        user?.email ? <div className='flex gap-2 items-center justify-center'>
+                            <div className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm'>
+                                <img
+                                    src={logoImg}
+                                    alt="HomeHero Logo"
+                                    className='h-full w-full object-cover'
+                                />
+                            </div>
+                            <div
+                                onClick={handleLogOutButtonClick}>
+                                <a className="btn btn-primary">Logout </a>
+                            </div>
                         </div> : <div onClick={handleLoginButtonCllick}>
-                            <a className="btn">Login </a>
+                            <a className="btn btn-primary">Login </a>
                         </div>
                     }
                 </div>

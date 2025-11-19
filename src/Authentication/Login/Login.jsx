@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Link } from 'react-router';
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Login = () => {
+    const { signInWithGoogle } = use(AuthContext);
+    const handleGoogleLoginButton = () => {
+        signInWithGoogle()
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
     return (
         <div className="min-h-screen flex items-center justify-center bg-base-200 p-4">
             <div className="card bg-base-100 w-full max-w-sm md:max-w-lg shadow-xl border border-base-300">
@@ -40,7 +51,9 @@ const Login = () => {
                     {/* Divider */}
                     <div className="divider text-base-content/60">OR</div>
                     {/* Google Login Button */}
-                    <button className="btn btn-outline w-full gap-2 border-base-300 hover:border-primary">
+                    <button
+                        onClick={handleGoogleLoginButton}
+                        className="btn btn-outline w-full gap-2 border-base-300 hover:border-primary">
                         <FcGoogle className="text-2xl" />
                         Continue with Google
                     </button>
