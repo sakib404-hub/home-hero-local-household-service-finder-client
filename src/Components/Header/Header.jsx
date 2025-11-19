@@ -1,6 +1,28 @@
 import React from 'react';
+import { NavLink } from 'react-router';
+import logoImg from '../../assets/logo.png'
 
 const Header = () => {
+    const links = <div className='text-base text-center font-bold flex flex-col lg:flex-row gap-4'>
+        <NavLink
+            className={'nav-links'}
+            to={'/'}>Home</NavLink>
+        <NavLink
+            className={'nav-links'}
+            to={'/'}>Services</NavLink>
+        <NavLink
+            className={'nav-links'}
+            to={'/'}>My Services</NavLink>
+        <NavLink
+            className={'nav-links'}
+            to={'/'}>Add Services</NavLink>
+        <NavLink
+            className={'nav-links'}
+            to={'/'}>My Bookings</NavLink>
+        <NavLink
+            className={'nav-links'}
+            to={'/'}>Profile</NavLink>
+    </div>
     return (
         <div>
             <div className="navbar bg-base-100 shadow-sm">
@@ -11,37 +33,32 @@ const Header = () => {
                         </div>
                         <ul
                             tabIndex="-1"
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                            <li><a>Item 1</a></li>
-                            <li>
-                                <a>Parent</a>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Item 3</a></li>
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-35 p-4 shadow">
+                            {
+                                links
+                            }
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <div className="flex items-center gap-2 lg:gap-3 text-xl cursor-pointer">
+                        <div className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm'>
+                            <img
+                                src={logoImg}
+                                alt="HomeHero Logo"
+                                className='h-full w-full object-cover'
+                            />
+                        </div>
+                        <span className="font-bold text-primary tracking-wide">HomeHero</span>
+                    </div>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul className="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
-                        </li>
-                        <li><a>Item 3</a></li>
+                        {
+                            links
+                        }
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Button</a>
+                    <a className="btn">Login</a>
                 </div>
             </div>
         </div>

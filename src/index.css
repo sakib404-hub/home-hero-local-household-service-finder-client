@@ -55,3 +55,11 @@
   --depth: 1;
   --noise: 0;
 }
+
+.nav-links:hover{
+  color: var(--color-primary);
+}
+.nav-links.active{
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+}
