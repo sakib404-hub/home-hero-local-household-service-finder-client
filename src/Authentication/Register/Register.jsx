@@ -1,13 +1,63 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import Swal from 'sweetalert2';
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
-    const { signInWithGoogle } = use(AuthContext);
+    const { signInWithGoogle, createUser } = use(AuthContext);
     const path = useNavigate();
+    const [error, setError] = useState('');
+    const handleFormSubmission = async (event) => {
+        event.preventDefault();
 
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        const displayName = event.target.name.value;
+        const photoURL = event.target.image.value;
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        if (!passwordRegex.test(password)) {
+            Swal.fire({
+                icon: "error",
+                title: "Weak Password",
+                text: "Password must be at least 6 characters long and include both uppercase and lowercase letters.",
+                background: "var(--color-base-100)",
+                color: "var(--color-base-content)",
+                timer: 2000
+            });
+            return;
+        }
+
+        try {
+            const result = await createUser(email, password);
+            await updateProfile(result.user, { displayName, photoURL });
+            event.target.reset();
+
+            Swal.fire({
+                title: `Registration Successful! 🎉`,
+                text: `Welcome, ${result.user.displayName}!`,
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000,
+                background: "var(--color-base-100)",
+                color: "var(--color-base-content)"
+            });
+
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Registration Failed",
+                text: error.message,
+                background: "var(--color-base-100)",
+                color: "var(--color-base-content)"
+            });
+        }
+    };
+
+
+    //handling googleLogin
     const handleGoogleLoginButton = () => {
         signInWithGoogle()
             .then((result) => {
@@ -24,7 +74,10 @@ const Register = () => {
                 path(location.state || '/');
             })
             .catch((error) => {
-                console.log(error);
+                setError(error.message);
+                setTimeout(() => {
+                    setError('');
+                }, 3000);
             })
     }
     return (
@@ -36,38 +89,60 @@ const Register = () => {
                         Create an Account
                     </h2>
 
-                    <form>
+                    <form
+                        onSubmit={handleFormSubmission}>
                         <fieldset className="fieldset space-y-2">
 
-                            <label className="label">Name</label>
+                            <label
+                                htmlFor="name"
+                                className="label">Name</label>
                             <input
                                 type="text"
+                                id="name"
+                                name="name"
                                 className="input input-bordered w-full"
                                 placeholder="Your name"
                             />
 
-                            <label className="label">Email</label>
+                            <label
+                                htmlFor="emalil"
+                                className="label">Email</label>
                             <input
                                 type="email"
+                                name="email"
+                                id="email"
                                 className="input input-bordered w-full"
                                 placeholder="Email address"
                             />
 
-                            <label className="label">Photo URL</label>
+                            <label
+                                htmlFor="image"
+                                className="label">Photo URL</label>
                             <input
                                 type="text"
+                                id="image"
+                                name="image"
                                 className="input input-bordered w-full"
                                 placeholder="Profile picture link"
                             />
 
-                            <label className="label">Password</label>
+                            <label
+                                htmlFor="password"
+                                className="label">Password</label>
                             <input
+                                name="password"
+                                id="password"
                                 type="password"
                                 className="input input-bordered w-full"
                                 placeholder="Password"
                             />
 
-                            <button
+                            {error && (
+                                <p className="text-red-500 text-sm mb-2 text-center">
+                                    {error}
+                                </p>)
+                            }
+                            < button
                                 type="submit"
                                 className="btn btn-primary w-full mt-3"
                             >
@@ -94,7 +169,7 @@ const Register = () => {
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
