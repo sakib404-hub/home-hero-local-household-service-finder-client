@@ -1,27 +1,30 @@
-import React from 'react';
+import React, { use } from 'react';
 import { NavLink } from 'react-router';
 import logoImg from '../../assets/logo.png'
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Header = () => {
+    const { user } = use(AuthContext);
+    console.log(user);
     const links = <div className='text-base text-center font-bold flex flex-col lg:flex-row gap-4'>
         <NavLink
-            className={'nav-links'}
+            className={'nav-links px-2'}
             to={'/'}>Home</NavLink>
         <NavLink
-            className={'nav-links'}
-            to={'/'}>Services</NavLink>
+            className={'nav-links px-2'}
+            to={'/services'}>Services</NavLink>
         <NavLink
-            className={'nav-links'}
-            to={'/'}>My Services</NavLink>
+            className={'nav-links px-2'}
+            to={'/myservices'}>My Services</NavLink>
         <NavLink
-            className={'nav-links'}
-            to={'/'}>Add Services</NavLink>
+            className={'nav-links px-2'}
+            to={'/addservices'}>Add Services</NavLink>
         <NavLink
-            className={'nav-links'}
-            to={'/'}>My Bookings</NavLink>
+            className={'nav-links  px-2'}
+            to={'/mybookings'}>My Bookings</NavLink>
         <NavLink
-            className={'nav-links'}
-            to={'/'}>Profile</NavLink>
+            className={'nav-links px-2'}
+            to={'/profile'}>Profile</NavLink>
     </div>
     return (
         <div>
@@ -33,7 +36,7 @@ const Header = () => {
                         </div>
                         <ul
                             tabIndex="-1"
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-35 p-4 shadow">
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-40 p-4 shadow">
                             {
                                 links
                             }
@@ -58,10 +61,16 @@ const Header = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Login</a>
+                    {
+                        user ? <div >
+                            <a className="btn">Logout </a>
+                        </div> : <div>
+                            <a className="btn">Login </a>
+                        </div>
+                    }
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

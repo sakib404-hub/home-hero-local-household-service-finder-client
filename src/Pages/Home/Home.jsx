@@ -1,9 +1,10 @@
 import React from 'react';
+import Loader from '../../Components/Loader/Loader';
 
 const Home = () => {
     return (
         <div>
-            This is the Home!
+            This is Home!
         </div>
     );
 };

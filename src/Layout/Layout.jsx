@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../Components/Header/Header';
 import Footer from '../Components/Footer/Footer';
+import { Outlet } from 'react-router';
 
 const Layout = () => {
     return (
@@ -8,7 +9,9 @@ const Layout = () => {
             <header>
                 <Header></Header>
             </header>
-            <main className='min-h-screen border'></main>
+            <main className='min-h-screen border'>
+                <Outlet></Outlet>
+            </main>
             <footer>
                 <Footer></Footer>
             </footer>
