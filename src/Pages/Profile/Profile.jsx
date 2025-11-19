@@ -1,21 +1,22 @@
-import React, { use } from "react";
-import { FaEnvelope, FaUser, FaClock, FaIdBadge, FaGoogle, FaCheckCircle } from "react-icons/fa";
+import React, { useContext } from "react";
+import { FaEnvelope, FaUser, FaClock, FaGoogle, FaCheckCircle } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
+import { motion } from "framer-motion";
 
 const Profile = () => {
-    const { user } = use(AuthContext)
-    const {
-        displayName,
-        email,
-        photoURL,
-        providerId,
-        uid,
-        metadata,
-        emailVerified,
-    } = user;
+    const { user } = useContext(AuthContext);
+
+    if (!user) return <p className="text-center mt-10">No user logged in.</p>;
+
+    const { displayName, email, photoURL, providerId, metadata, emailVerified } = user;
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <motion.div
+            className="min-h-screen flex items-center justify-center p-4"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+        >
             <div className="card w-full max-w-lg bg-base-100 shadow-xl border border-base-content/10">
                 <div className="card-body">
 
@@ -45,7 +46,6 @@ const Profile = () => {
 
                     {/* Info Section */}
                     <div className="space-y-4">
-
                         <div className="flex items-center gap-3">
                             <FaEnvelope className="text-primary" />
                             <span className="font-medium">{email}</span>
@@ -59,21 +59,16 @@ const Profile = () => {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            <FaIdBadge className="text-primary" />
-                            <span className="font-medium">UID: {uid}</span>
-                        </div>
-
-                        <div className="flex items-center gap-3">
                             <FaClock className="text-primary" />
                             <span className="font-medium">
-                                Last Login: {metadata?.lastSignInTime}
+                                Last Login: {metadata?.lastSignInTime || "N/A"}
                             </span>
                         </div>
 
                         <div className="flex items-center gap-3">
                             <FaClock className="text-primary" />
                             <span className="font-medium">
-                                Account Created: {metadata?.creationTime}
+                                Account Created: {metadata?.creationTime || "N/A"}
                             </span>
                         </div>
 
@@ -87,7 +82,7 @@ const Profile = () => {
 
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

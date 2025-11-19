@@ -1,11 +1,13 @@
 import React, { use } from 'react';
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useLocation, useNavigate } from 'react-router';
 import logoImg from '../../assets/logo.png'
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import Swal from 'sweetalert2';
 
 const Header = () => {
     const { user, logOut } = use(AuthContext);
+    const location = useLocation();
+    console.log(location);
     const links = <div className='text-base text-center font-bold flex flex-col lg:flex-row gap-4'>
         <NavLink
             className={'nav-links px-2'}
@@ -51,12 +53,16 @@ const Header = () => {
                     color: "var(--color-base-content)",
                     timer: 1500
                 });
-
-
+                path(location.state || '/');
             })
             .catch((error) => {
                 console.log(error.message);
             });
+    }
+
+    //handling the profile click
+    const handleProfileclick = () => {
+        path('/profile');
     }
     return (
         <div>
@@ -101,7 +107,9 @@ const Header = () => {
                                 className="tooltip tooltip-left"
                                 data-tip={user?.displayName || "User"}
                             >
-                                <div className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm'>
+                                <div
+                                    onClick={handleProfileclick}
+                                    className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm cursor-pointer'>
                                     <img
                                         src={user?.photoURL}
                                         alt="User Avatar"

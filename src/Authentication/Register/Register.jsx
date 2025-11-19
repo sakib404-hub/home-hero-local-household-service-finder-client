@@ -1,11 +1,12 @@
 import React, { use } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import Swal from 'sweetalert2';
 
 const Register = () => {
     const { signInWithGoogle } = use(AuthContext);
+    const path = useNavigate();
 
     const handleGoogleLoginButton = () => {
         signInWithGoogle()
@@ -20,7 +21,7 @@ const Register = () => {
                     color: "var(--color-base-content)",
                     confirmButtonColor: "var(--color-primary)"
                 });
-
+                path(location.state || '/');
             })
             .catch((error) => {
                 console.log(error);

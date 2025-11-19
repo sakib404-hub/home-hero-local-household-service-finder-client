@@ -1,11 +1,13 @@
 import React, { use } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import Swal from 'sweetalert2';
 
 const Login = () => {
     const { signInWithGoogle } = use(AuthContext);
+    const path = useNavigate();
+    const location = useLocation();
     const handleGoogleLoginButton = () => {
         signInWithGoogle()
             .then((result) => {
@@ -19,6 +21,7 @@ const Login = () => {
                     color: "var(--color-base-content)",
                     confirmButtonColor: "var(--color-primary)"
                 });
+                path(location.state || '/');
 
             })
             .catch((error) => {
