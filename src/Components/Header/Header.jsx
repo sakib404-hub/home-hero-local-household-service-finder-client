@@ -2,9 +2,10 @@ import React, { use } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import logoImg from '../../assets/logo.png'
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
+import Swal from 'sweetalert2';
 
 const Header = () => {
-    const { user } = use(AuthContext);
+    const { user, logOut } = use(AuthContext);
     const links = <div className='text-base text-center font-bold flex flex-col lg:flex-row gap-4'>
         <NavLink
             className={'nav-links px-2'}
@@ -38,7 +39,24 @@ const Header = () => {
     }
     //logout button Click
     const handleLogOutButtonClick = () => {
-        console.log('Logout Button is Clicked!');
+        logOut()
+            .then(() => {
+                Swal.fire({
+                    position: "center",
+                    title: "👋 See you soon!",
+                    text: "You have successfully logged out.",
+                    icon: "success",
+                    showConfirmButton: false,
+                    background: "var(--color-base-100)",
+                    color: "var(--color-base-content)",
+                    timer: 1500
+                });
+
+
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
     }
     return (
         <div>
@@ -79,13 +97,19 @@ const Header = () => {
                 <div className="navbar-end">
                     {
                         user?.email ? <div className='flex gap-2 items-center justify-center'>
-                            <div className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm'>
-                                <img
-                                    src={logoImg}
-                                    alt="HomeHero Logo"
-                                    className='h-full w-full object-cover'
-                                />
+                            <div
+                                className="tooltip tooltip-left"
+                                data-tip={user?.displayName || "User"}
+                            >
+                                <div className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm'>
+                                    <img
+                                        src={user?.photoURL}
+                                        alt="User Avatar"
+                                        className='h-full w-full object-cover'
+                                    />
+                                </div>
                             </div>
+
                             <div
                                 onClick={handleLogOutButtonClick}>
                                 <a className="btn btn-primary">Logout </a>

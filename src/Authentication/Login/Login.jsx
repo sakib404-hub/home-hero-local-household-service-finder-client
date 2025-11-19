@@ -2,13 +2,24 @@ import React, { use } from 'react';
 import { Link } from 'react-router';
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const { signInWithGoogle } = use(AuthContext);
     const handleGoogleLoginButton = () => {
         signInWithGoogle()
             .then((result) => {
-                console.log(result);
+                Swal.fire({
+                    title: `Welcome , ${result.user.displayName}`,
+                    text: "You have successfully signed in.",
+                    icon: "success",
+                    confirmButtonText: "Continue",
+                    draggable: true,
+                    background: "var(--color-base-100)",
+                    color: "var(--color-base-content)",
+                    confirmButtonColor: "var(--color-primary)"
+                });
+
             })
             .catch((error) => {
                 console.log(error);

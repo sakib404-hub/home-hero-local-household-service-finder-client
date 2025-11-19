@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthContext } from '../AuthContext/AuthContext';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase.config';
 
 const googleProvider = new GoogleAuthProvider();
@@ -14,12 +14,28 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider);
     }
+    // handling the signOut Button 
+    const logOut = () => {
+        return signOut(auth);
+    }
+    //setting up the observer
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+        })
+        return () => {
+            unsubscribe()
+        };
+    }, [])
+    //? Setting up the context for the information
     const information = {
         user,
         setUser,
         loading,
         setLoading,
-        signInWithGoogle
+        signInWithGoogle,
+        logOut
     }
     return (
         <AuthContext value={information}>

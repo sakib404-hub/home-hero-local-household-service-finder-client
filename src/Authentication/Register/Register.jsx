@@ -1,8 +1,31 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
+import Swal from 'sweetalert2';
 
 const Register = () => {
+    const { signInWithGoogle } = use(AuthContext);
+
+    const handleGoogleLoginButton = () => {
+        signInWithGoogle()
+            .then((result) => {
+                Swal.fire({
+                    title: `Welcome , ${result.user.displayName}`,
+                    text: "You have successfully signed in.",
+                    icon: "success",
+                    confirmButtonText: "Continue",
+                    draggable: true,
+                    background: "var(--color-base-100)",
+                    color: "var(--color-base-content)",
+                    confirmButtonColor: "var(--color-primary)"
+                });
+
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
     return (
         <div className="min-h-screen flex justify-center items-center bg-base-200 px-4">
             <div className="card bg-base-100 w-full max-w-sm md:max-w-lg shadow-2xl">
@@ -53,7 +76,9 @@ const Register = () => {
                     </form>
 
                     {/* Google Register */}
-                    <button className="btn btn-outline w-full mt-3 flex items-center gap-2">
+                    <button
+                        onClick={handleGoogleLoginButton}
+                        className="btn btn-outline w-full mt-3 flex items-center gap-2">
                         <FcGoogle size={22} />
                         Sign up with Google
                     </button>

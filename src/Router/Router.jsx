@@ -8,6 +8,7 @@ import MyBookings from "../Pages/MyBookings/MyBookings";
 import Profile from "../Pages/Profile/Profile";
 import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -35,7 +36,9 @@ export const router = createBrowserRouter([{
         },
         {
             path: '/profile',
-            Component: Profile
+            element: <PrivateRoute>
+                <Profile></Profile>
+            </PrivateRoute>
         },
         {
             path: '/login',
