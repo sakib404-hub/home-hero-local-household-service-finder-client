@@ -44,7 +44,7 @@ const Register = () => {
                 background: "var(--color-base-100)",
                 color: "var(--color-base-content)"
             });
-
+            path(location.state || '/');
         } catch (error) {
             Swal.fire({
                 icon: "error",
