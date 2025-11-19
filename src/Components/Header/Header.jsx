@@ -1,11 +1,10 @@
 import React, { use } from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import logoImg from '../../assets/logo.png'
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Header = () => {
     const { user } = use(AuthContext);
-    console.log(user);
     const links = <div className='text-base text-center font-bold flex flex-col lg:flex-row gap-4'>
         <NavLink
             className={'nav-links px-2'}
@@ -26,6 +25,17 @@ const Header = () => {
             className={'nav-links px-2'}
             to={'/profile'}>Profile</NavLink>
     </div>
+    const path = useNavigate();
+
+    //logo button click
+    const handleLogoButtonClick = () => {
+        path('/');
+    }
+
+    //login button click
+    const handleLoginButtonCllick = () => {
+        path('/login')
+    }
     return (
         <div>
             <div className="navbar bg-base-100 shadow-sm">
@@ -42,7 +52,9 @@ const Header = () => {
                             }
                         </ul>
                     </div>
-                    <div className="flex items-center gap-2 lg:gap-3 text-xl cursor-pointer">
+                    <div
+                        onClick={handleLogoButtonClick}
+                        className="flex items-center gap-2 lg:gap-3 text-xl cursor-pointer">
                         <div className='h-10 w-10 lg:h-12 lg:w-12 border border-base-content/20 rounded-full overflow-hidden shadow-sm'>
                             <img
                                 src={logoImg}
@@ -62,9 +74,9 @@ const Header = () => {
                 </div>
                 <div className="navbar-end">
                     {
-                        user ? <div >
+                        user?.email ? <div >
                             <a className="btn">Logout </a>
-                        </div> : <div>
+                        </div> : <div onClick={handleLoginButtonCllick}>
                             <a className="btn">Login </a>
                         </div>
                     }

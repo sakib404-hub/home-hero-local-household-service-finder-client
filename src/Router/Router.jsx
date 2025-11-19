@@ -6,6 +6,8 @@ import MyServices from "../Pages/MyServices/MyServices";
 import AddServices from "../Pages/AddServices/AddServices";
 import MyBookings from "../Pages/MyBookings/MyBookings";
 import Profile from "../Pages/Profile/Profile";
+import Login from "../Authentication/Login/Login";
+import Register from "../Authentication/Register/Register";
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -34,6 +36,14 @@ export const router = createBrowserRouter([{
         {
             path: '/profile',
             Component: Profile
+        },
+        {
+            path: '/login',
+            Component: Login
+        },
+        {
+            path: '/register',
+            Component: Register
         }
     ]
 }])
