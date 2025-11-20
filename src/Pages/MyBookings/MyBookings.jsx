@@ -1,6 +1,7 @@
 import React, { use, useEffect, useState } from 'react';
 import useAxios from '../../Hooks/useAxios';
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
+import Swal from 'sweetalert2';
 
 const MyBookings = () => {
     const { user } = use(AuthContext);
@@ -15,6 +16,49 @@ const MyBookings = () => {
                 console.log(error);
             })
     }, [axiosInstance, user])
+
+    const handleBookingCancel = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Cancel Bookings!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosInstance.delete(`/bookings/${id}`)
+                    .then((res) => {
+                        if (res.data.deletedCount) {
+                            Swal.fire({
+                                title: "Booking Cancelled!!",
+                                text: "Your Bookings has been Canceled",
+                                icon: "success"
+                            });
+                        }
+                        const filteredBooking = myBookings.filter((booking) => booking._id !== id);
+                        setMyBookings(filteredBooking);
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            title: error.message,
+                            text: "We couldn't cancel your booking. Please try again.",
+                            icon: "error",
+                            confirmButtonText: "Okay",
+                            confirmButtonColor: "#dc2626",
+                            background: "#ffffffee",
+                            customClass: {
+                                popup: "rounded-2xl shadow-xl",
+                                title: "text-2xl font-bold text-red-600",
+                                confirmButton: "px-5 py-2 rounded-lg",
+                            }
+                        });
+                    })
+            }
+        });
+
+    }
 
     return (
         <div className='flex items-center justify-center'>
@@ -67,7 +111,9 @@ const MyBookings = () => {
                                         <td className="font-semibold">৳ {booking.price}</td>
 
                                         <td>
-                                            <button className="btn btn-primary btn-xs">
+                                            <button
+                                                onClick={() => handleBookingCancel(booking._id)}
+                                                className="btn btn-primary btn-xs">
                                                 Cancel Booking
                                             </button>
                                         </td>
