@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
+import useAxios from '../../Hooks/useAxios';
+import Swal from 'sweetalert2';
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 const AddServices = () => {
+    const { user } = use(AuthContext);
     const [tags, setTags] = useState("");
+    const axiosInstance = useAxios();
     const handleFormSubmission = (event) => {
         event.preventDefault();
 
@@ -26,10 +31,51 @@ const AddServices = () => {
             tags: tags.split(",").map(tag => tag.trim()),
             createdAt: new Date().toISOString()
         };
-        console.log(newService);
+        axiosInstance.post('/services', newService)
+            .then((res) => {
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: "Service Added Successfully!",
+                        text: "Your new service is now live.",
+                        showConfirmButton: false,
+                        timer: 1800,
+                        background: "#ffffffee",
+                        customClass: {
+                            popup: "rounded-xl shadow-lg",
+                            title: "text-lg font-semibold",
+                        }
+                    });
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed to Add Service",
+                    text: error.response?.data?.message || "Please try again later.",
+                    confirmButtonText: "Okay",
+                    confirmButtonColor: "#dc2626",
+                    background: "#ffffffee",
+                    customClass: {
+                        popup: "rounded-xl shadow-lg",
+                        title: "text-lg font-semibold text-red-600",
+                        confirmButton: "px-5 py-2 rounded-lg",
+                    }
+                });
+            })
+
     }
     return (
         <div>
+            <div className="text-center my-10">
+                <h1 className="text-4xl font-bold text-primary">Add New Service</h1>
+                <p className="text-base mt-2 text-gray-600 max-w-xl mx-auto">
+                    Fill out the form below to add a new service to your platform. Make sure all
+                    the information is accurate to help users make the right choice.
+                </p>
+            </div>
+
             <div className="card bg-base-100 flex items-center justify-center shadow-xl mx-auto">
                 <div className="card-body w-full lg:w-[600px] border border-gray-300 p-10 rounded-2xl my-10">
                     <form
@@ -111,7 +157,8 @@ const AddServices = () => {
                                 id='providerName'
                                 name='providerName'
                                 className="input input-bordered w-full"
-                                placeholder="Enter provider name"
+                                defaultValue={user?.displayName}
+                                readOnly
                             />
                             {/* Provider Email */}
                             <label
@@ -122,7 +169,7 @@ const AddServices = () => {
                                 name='providerEmail'
                                 id='providerEmail'
                                 className="input input-bordered w-full"
-                                placeholder="Enter provider email"
+                                defaultValue={user?.email}
                             />
                             <label htmlFor='location' className="label font-semibold">Location</label>
                             <input

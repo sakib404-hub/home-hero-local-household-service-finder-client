@@ -61,7 +61,12 @@ const MyBookings = () => {
     }
 
     return (
-        <div className='flex items-center justify-center'>
+        <div>
+            < h1 className="text-3xl font-bold text-center my-6 flex items-center justify-center gap-2" >
+                <i className="fa-solid fa-calendar-check text-primary"></i>
+                My Bookings
+            </h1 >
+
             <div className="w-full p-2">
                 {myBookings.length > 0 ? (
                     <div className="overflow-x-auto w-full">
@@ -128,7 +133,7 @@ const MyBookings = () => {
                     </p>
                 )}
             </div>
-        </div>
+        </div >
     );
 
 };
