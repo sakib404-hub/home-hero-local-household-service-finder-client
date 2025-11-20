@@ -10,6 +10,8 @@ import Login from "../Authentication/Login/Login";
 import Register from "../Authentication/Register/Register";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
+import ServiceDetails from "../Components/ServiceDetails/ServiceDetails";
+import Loader from "../Components/Loader/Loader";
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -23,6 +25,12 @@ export const router = createBrowserRouter([{
         {
             path: '/services',
             Component: Services
+        },
+        {
+            path: '/services/:id',
+            element: <ServiceDetails></ServiceDetails>,
+            loader: ({ params }) => fetch(`http://localhost:5030/services/${params.id}`),
+            hydrateFallbackElement: <Loader></Loader>
         },
         {
             path: '/myservices',

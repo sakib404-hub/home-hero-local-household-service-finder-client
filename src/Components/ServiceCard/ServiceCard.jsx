@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const ServiceCard = ({ service }) => {
     const ratings = service.ratings;
@@ -17,8 +18,9 @@ const ServiceCard = ({ service }) => {
             5 * ratings.fiveStar) /
         totalRatings
     ).toFixed(1);
+    const path = useNavigate();
     const handleDetailsButtonClick = () => {
-        console.log('Button is Clicked!');
+        path(`/services/${service._id}`)
     }
     return (
         <div className="card w-96 bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-xl overflow-hidden hover:scale-105">

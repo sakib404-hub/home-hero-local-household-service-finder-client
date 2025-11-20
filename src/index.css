@@ -63,3 +63,17 @@
   color: var(--color-accent);
   border-bottom: 2px solid var(--color-accent);
 }
+
+swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.8;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  color: white !important;
+  transition: 0.3s;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #58a6ff !important;
+}
