@@ -49,12 +49,16 @@ const ServiceDetails = () => {
         const serviceId = service._id;
         const userEmail = event.target.email.value;
         const price = event.target.price.value;
+        const description = service.description;
+        const title = service.title;
         const date = new Date();
         const today = date.toISOString().split("T")[0];
 
         const newBooking = {
             serviceId,
             userEmail,
+            serviceTitle: title,
+            serviceDes: description,
             price,
             bookingDate: today
         }
