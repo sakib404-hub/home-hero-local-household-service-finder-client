@@ -2,6 +2,7 @@ import React, { use, useEffect, useState } from 'react';
 import useAxios from '../../Hooks/useAxios';
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import MyServiceCard from '../../Components/MyServiceCard/MyServiceCard';
+import Swal from 'sweetalert2';
 
 const MyServices = () => {
     const axiosInstance = useAxios();
@@ -19,7 +20,60 @@ const MyServices = () => {
     }, [axiosInstance, user])
 
     const onDelete = (id) => {
-        console.log('OnDelete is Clicked!', id)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action will permanently delete your service!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc2626",
+            cancelButtonColor: "#6b7280",
+            confirmButtonText: "Yes, Delete it!",
+            cancelButtonText: "Keep Service",
+            background: "#ffffffee",
+            customClass: {
+                popup: "rounded-2xl shadow-xl",
+                title: "text-2xl font-bold",
+                confirmButton: "px-5 py-2 rounded-lg",
+                cancelButton: "px-5 py-2 rounded-lg"
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosInstance.delete(`/services/${id}`)
+                    .then((res) => {
+                        if (res.data.deletedCount) {
+                            Swal.fire({
+                                title: "Service Deleted!",
+                                text: "Your service has been successfully removed.",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1800,
+                                background: "#ffffffee",
+                                customClass: {
+                                    popup: "rounded-2xl shadow-xl",
+                                    title: "text-2xl font-bold",
+                                }
+                            });
+                            const filterdService = myServices.filter((service) => service._id !== id)
+                            setMyServices(filterdService);
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            title: error.message,
+                            text: "We couldn't Delete your service. Please try again.",
+                            icon: "error",
+                            confirmButtonText: "Okay",
+                            confirmButtonColor: "#dc2626",
+                            background: "#ffffffee",
+                            customClass: {
+                                popup: "rounded-2xl shadow-xl",
+                                title: "text-2xl font-bold text-red-600",
+                                confirmButton: "px-5 py-2 rounded-lg",
+                            }
+                        });
+                    })
+            }
+        });
     }
     return (
         <div>
