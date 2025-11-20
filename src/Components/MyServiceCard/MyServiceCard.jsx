@@ -19,7 +19,7 @@ const MyServiceCard = ({ service, onDelete, onEdit }) => {
     const discountedPrice = price - (price * discount) / 100;
 
     return (
-        <div className="relative bg-white shadow-lg rounded-xl overflow-hidden border group hover:shadow-2xl transition-all">
+        <div className="relative bg-white shadow-lg rounded-xl overflow-hidden border border-gray-300 group hover:shadow-2xl transition-all">
 
             {/* Delete Icon */}
             <button

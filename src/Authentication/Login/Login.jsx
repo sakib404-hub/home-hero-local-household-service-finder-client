@@ -25,7 +25,15 @@ const Login = () => {
 
             })
             .catch((error) => {
-                console.log(error);
+                Swal.fire({
+                    icon: "error",
+                    title: "SignIn with Google Failed!",
+                    text: error.message,
+                    background: "var(--color-base-100)",
+                    color: "var(--color-base-content)",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             })
     }
     const handleFormSubmission = async (event) => {

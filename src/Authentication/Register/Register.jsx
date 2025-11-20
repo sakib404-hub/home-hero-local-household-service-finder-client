@@ -78,6 +78,15 @@ const Register = () => {
                 setTimeout(() => {
                     setError('');
                 }, 3000);
+                Swal.fire({
+                    icon: "error",
+                    title: "SignIn with Google Failed!",
+                    text: error.message,
+                    background: "var(--color-base-100)",
+                    color: "var(--color-base-content)",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
             })
     }
     return (
