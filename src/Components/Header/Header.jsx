@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 const Header = () => {
     const { user, logOut } = use(AuthContext);
     const location = useLocation();
-    console.log(location);
     const links = <div className='text-base text-center font-bold flex flex-col lg:flex-row gap-4'>
         <NavLink
             className={'nav-links px-2'}
