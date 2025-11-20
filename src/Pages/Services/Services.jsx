@@ -13,7 +13,7 @@ const Services = () => {
     }, [axiosInstance]);
 
     return (
-        <div className="bg-gray-50 min-h-screen py-10">
+        <div className="bg-base-100 min-h-screen py-10">
             <div className="text-center mb-10">
                 <h1 className="text-3xl font-bold mb-2">All Services</h1>
                 <p className="text-gray-500">Choose from our professional service options</p>
