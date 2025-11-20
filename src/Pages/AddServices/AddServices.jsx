@@ -33,9 +33,10 @@ const AddServices = () => {
         };
         axiosInstance.post('/services', newService)
             .then((res) => {
+                event.target.reset();
                 if (res.data.insertedId) {
                     Swal.fire({
-                        position: "top-center",
+                        position: "center",
                         icon: "success",
                         title: "Service Added Successfully!",
                         text: "Your new service is now live.",
