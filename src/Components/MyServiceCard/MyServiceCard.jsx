@@ -1,5 +1,6 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const MyServiceCard = ({ service, onDelete }) => {
     const {
@@ -17,9 +18,9 @@ const MyServiceCard = ({ service, onDelete }) => {
     } = service;
 
     const discountedPrice = price - (price * discount) / 100;
-
+    const path = useNavigate();
     const handleEditMyService = (id) => {
-        console.log('Button is Clicked, ', id)
+        path(`/editMyService/${id}`);
     }
 
     return (

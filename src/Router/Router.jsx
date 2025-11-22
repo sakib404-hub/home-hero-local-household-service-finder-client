@@ -46,7 +46,9 @@ export const router = createBrowserRouter([{
             path: '/editMyService/:id',
             element: <PrivateRoute>
                 <EditService></EditService>
-            </PrivateRoute>
+            </PrivateRoute>,
+            loader: ({ params }) => fetch(`http://localhost:5030/services/${params.id}`),
+            hydrateFallbackElement: <Loader></Loader>
         },
         {
             path: '/addservices',
