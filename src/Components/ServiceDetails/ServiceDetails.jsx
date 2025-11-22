@@ -10,6 +10,7 @@ const ServiceDetails = () => {
     const service = useLoaderData();
     const navigate = useNavigate();
     const bookServiceRef = useRef(null);
+    const isUser = user?.email === service.providerEmail;
 
     // Calculate discounted price
     const discountedPrice = service.price - (service.price * service.discount) / 100;
@@ -166,19 +167,22 @@ const ServiceDetails = () => {
                             </span>
                         ))}
                     </div>
-
-                    <button
-                        onClick={handleModalOpen}
-                        className="btn btn-primary w-full lg:w-auto">Book Now</button>
+                    <div
+                        className='w-full'
+                        title={isUser ? 'You can not Book Your own Service' : ''}>
+                        <button
+                            onClick={handleModalOpen}
+                            className="btn btn-primary w-full"
+                            disabled={isUser}
+                        >Book Now
+                        </button>
+                    </div>
                 </div>
                 <dialog
                     ref={bookServiceRef}
                     id="my_modal_5"
                     className="modal modal-bottom sm:modal-middle">
-
                     <div className="modal-box">
-
-                        {/* SERVICE INFO INSIDE MODAL */}
                         <div className="flex flex-col items-center mb-4 text-center">
                             <img
                                 src={service.image}

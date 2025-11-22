@@ -36,8 +36,6 @@ const EditService = () => {
             tags: tags.split(",").map(tag => tag.trim()),
             createdAt: new Date().toISOString(),
         };
-
-        console.log("UPDATED SERVICE →", updatedService);
         axiosInstance.put(`/service/${service._id}`, updatedService)
             .then((res) => {
                 if (res.data.modifiedCount) {
