@@ -1,7 +1,7 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
 
-const MyServiceCard = ({ service, onDelete, onEdit }) => {
+const MyServiceCard = ({ service, onDelete }) => {
     const {
         title,
         category,
@@ -17,6 +17,10 @@ const MyServiceCard = ({ service, onDelete, onEdit }) => {
     } = service;
 
     const discountedPrice = price - (price * discount) / 100;
+
+    const handleEditMyService = (id) => {
+        console.log('Button is Clicked, ', id)
+    }
 
     return (
         <div className="relative bg-white shadow-lg rounded-xl overflow-hidden border border-gray-300 group hover:shadow-2xl transition-all">
@@ -78,7 +82,7 @@ const MyServiceCard = ({ service, onDelete, onEdit }) => {
 
                 {/* Edit Button */}
                 <button
-                    onClick={() => onEdit(service)}
+                    onClick={() => handleEditMyService(service._id)}
                     className="w-full mt-3 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                     Edit Service

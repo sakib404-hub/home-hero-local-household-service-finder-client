@@ -12,6 +12,8 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import ServiceDetails from "../Components/ServiceDetails/ServiceDetails";
 import Loader from "../Components/Loader/Loader";
+import UpdateProfile from "../Components/UppdateProfile/UpdateProfile";
+import EditService from "../Components/EditService/EditService";
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -41,6 +43,12 @@ export const router = createBrowserRouter([{
             </PrivateRoute>
         },
         {
+            path: '/editMyService/:id',
+            element: <PrivateRoute>
+                <EditService></EditService>
+            </PrivateRoute>
+        },
+        {
             path: '/addservices',
             element: <PrivateRoute>
                 <AddServices></AddServices>
@@ -56,6 +64,12 @@ export const router = createBrowserRouter([{
             path: '/profile',
             element: <PrivateRoute>
                 <Profile></Profile>
+            </PrivateRoute>
+        },
+        {
+            path: '/updateProfile',
+            element: <PrivateRoute>
+                <UpdateProfile></UpdateProfile>
             </PrivateRoute>
         },
         {

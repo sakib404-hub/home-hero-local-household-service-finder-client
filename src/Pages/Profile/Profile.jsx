@@ -2,9 +2,14 @@ import React, { useContext } from "react";
 import { FaEnvelope, FaUser, FaClock, FaGoogle, FaCheckCircle } from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router";
 
 const Profile = () => {
     const { user } = useContext(AuthContext);
+    const path = useNavigate();
+    const handleEditProfileClick = () => {
+        path('/updateProfile');
+    }
 
     if (!user) return <p className="text-center mt-10">No user logged in.</p>;
 
@@ -75,7 +80,9 @@ const Profile = () => {
                     </div>
 
                     <div className="card-actions justify-center mt-5">
-                        <button className="btn btn-primary w-full">
+                        <button
+                            onClick={handleEditProfileClick}
+                            className="btn btn-primary w-full">
                             Edit Profile
                         </button>
                     </div>
