@@ -59,7 +59,6 @@ const MyBookings = () => {
         });
 
     }
-
     return (
         <div>
             < h1 className="text-3xl font-bold text-center my-6 flex items-center justify-center gap-2" >

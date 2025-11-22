@@ -1,8 +1,9 @@
-import React, { use, useRef } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import useAxios from '../../Hooks/useAxios';
 import Swal from 'sweetalert2';
+import ReviewCard from '../ReviewCard/ReviewCard';
 
 const ServiceDetails = () => {
     const { user } = use(AuthContext);
@@ -11,6 +12,17 @@ const ServiceDetails = () => {
     const navigate = useNavigate();
     const bookServiceRef = useRef(null);
     const isUser = user?.email === service.providerEmail;
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        axiosInstance(`/reviews/${service._id}`)
+            .then((res) => {
+                setReviews(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [axiosInstance, service])
 
     // Calculate discounted price
     const discountedPrice = service.price - (service.price * service.discount) / 100;
@@ -43,6 +55,39 @@ const ServiceDetails = () => {
 
     const handleModalOpen = () => {
         bookServiceRef.current.showModal();
+    }
+
+    const handleReviews = (event) => {
+        event.preventDefault();
+        const date = new Date();
+
+        const newComment = {
+            serviceId: service._id,
+            name: user?.displayName,
+            avatar: user?.photoURL || "https://i.ibb.co/3N1RzRj/default-user.png",
+            text: event.target.comment.value,
+            time: date.toISOString().split("T")[0]
+        }
+        axiosInstance.post(`/reviews`, newComment)
+            .then(() => {
+                event.target.reset();
+                setReviews([...reviews, newComment]);
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "Error",
+                    text: error.message || "Failed to post your review. Please try again.",
+                    icon: "error",
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    background: "#fef2f2",
+                    color: "#991b1b",
+                    iconColor: "#dc2626",
+                });
+            })
     }
 
     const handleBookServiceForm = (event) => {
@@ -242,6 +287,44 @@ const ServiceDetails = () => {
                     </div>
                 </dialog>
 
+            </div>
+            <div className='bg-base-100 border border-gray-200 my-10 p-2 lg:p-10 rounded-2xl shadow-2xl'>
+                <form
+                    onSubmit={handleReviews}>
+                    <div className="flex items-start gap-3 mb-6">
+                        <img
+                            src={user?.photoURL || "https://i.ibb.co/3N1RzRj/default-user.png"}
+                            alt="User Avatar"
+                            className="w-10 h-10 rounded-full border border-gray-300 object-cover"
+                        />
+                        <div className="flex-1">
+                            <textarea
+                                name="comment"
+                                placeholder="Write your thoughts about this book..."
+                                className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                                rows="3"
+                            ></textarea>
+                            <div className="flex justify-end mt-3">
+                                <button
+                                    type="submit"
+                                    className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium transition-all"
+                                >
+                                    Post Comment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <div className='space-y-2 mt-3'>
+                    {reviews.length ? (
+                        reviews.map((review) => (
+                            <ReviewCard key={review._id} review={review} />
+                        ))
+                    ) : (
+                        <div className='flex items-center justify-center text-xl p-4 text-gray-700 font-semibold'>No Reviews Here, Be the First to Add Some Comments</div>
+                    )}
+                </div>
             </div>
         </div>
     );
