@@ -181,8 +181,8 @@ const ServiceDetails = () => {
                         )}
                     </div>
 
-                    <p className="text-gray-600 mb-2">{service.category}</p>
-                    <p className="text-gray-800 mb-4">{service.description}</p>
+                    <p className="mb-2">{service.category}</p>
+                    <p className="mb-4">{service.description}</p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
                         <p><strong>Location:</strong> {service.location}</p>
@@ -191,7 +191,7 @@ const ServiceDetails = () => {
                         <p><strong>Provider:</strong> {service.providerName} ({service.providerEmail})</p>
                     </div>
 
-                    <p className="text-gray-800 mb-2">
+                    <p className=" mb-2">
                         <strong>Price:</strong>{' '}
                         <span className="line-through text-red-500">${service.price}</span>{' '}
                         <span className="font-bold text-lg">${discountedPrice}</span>

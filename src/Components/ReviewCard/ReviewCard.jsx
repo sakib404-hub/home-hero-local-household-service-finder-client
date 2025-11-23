@@ -2,7 +2,7 @@ import React from 'react';
 
 const ReviewCard = ({ review }) => {
     return (
-        <div className="flex gap-4 p-4 bg-white rounded-xl shadow-sm">
+        <div className="flex gap-4 p-4 bg-base-200 rounded-xl shadow-md">
             <img
                 src={review.avatar}
                 alt={review.name}
@@ -10,12 +10,12 @@ const ReviewCard = ({ review }) => {
             />
             <div className="flex-1">
                 <div className="flex justify-between items-start">
-                    <h4 className="font-bold text-lg text-gray-800">
+                    <h4 className="font-bold text-lg">
                         {review.name}
                     </h4>
-                    <span className="text-sm text-gray-400">{review.time}</span>
+                    <span className="text-sm">{review.time}</span>
                 </div>
-                <p className="mt-2 text-gray-700">{review.text}</p>
+                <p className="mt-2">{review.text}</p>
             </div>
         </div>
     );

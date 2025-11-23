@@ -66,7 +66,17 @@ const Header = () => {
                 path(location.state || '/');
             })
             .catch((error) => {
-                console.log(error.message);
+                Swal.fire({
+                    icon: error.message,
+                    title: "Logout Failed!",
+                    text: "Something went wrong. Please try again.",
+                    position: "center",
+                    background: "var(--color-base-100)",
+                    color: "var(--color-base-content)",
+                    confirmButtonText: "Okay",
+                    confirmButtonColor: "#d33",
+                    footer: `<span style="color:#888;">${error.message}</span>`
+                });
             });
     }
 

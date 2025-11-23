@@ -2,9 +2,11 @@ import React, { use } from 'react';
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import { updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const UpdateProfile = () => {
     const { user, setUser } = use(AuthContext);
+    const navigate = useNavigate();
     const handleFormSubmission = (event) => {
         event.preventDefault();
         const displayName = event.target.username.value;
@@ -48,6 +50,14 @@ const UpdateProfile = () => {
     return (
         <div className='min-h-screen flex items-center justify-center'>
             <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                <div className='text-center'>
+                    <button
+                        onClick={() => navigate('/profile')}
+                        className="btn btn-outline mb-4"
+                    >
+                        &larr; Back to Profile
+                    </button>
+                </div>
                 <div className="card-body">
                     <form
                         onSubmit={handleFormSubmission}>
